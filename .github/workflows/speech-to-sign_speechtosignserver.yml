@@ -25,14 +25,14 @@ jobs:
           python-version: '3.10'
 
       # 🛠️ Local Build Section (Optional)
-      # The following section in your workflow is designed to catch build issues early on the client side, before deployment.
+      # The following section in your workflow is designed to catch build issues early on the client side, before deployment. This can be helpful for debugging and validation. However, if this step significantly increases deployment time and early detection is not critical for your workflow, you may remove this section to streamline the deployment process.
       - name: Create and Start virtual environment and Install dependencies
         run: |
           python -m venv antenv
           source antenv/bin/activate
           pip install -r requirements.txt
                 
-      # Exclude the antenv virtual environment directory from the deployment artifact to reduce the payload size. 
+      # By default, when you enable GitHub CI/CD integration through the Azure portal, the platform automatically sets the SCM_DO_BUILD_DURING_DEPLOYMENT application setting to true. This triggers the use of Oryx, a build engine that handles application compilation and dependency installation (e.g., pip install) directly on the platform during deployment. Hence, we exclude the antenv virtual environment directory from the deployment artifact to reduce the payload size. 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
@@ -40,6 +40,12 @@ jobs:
           path: |
             .
             !antenv/
+
+      # 🚫 Opting Out of Oryx Build
+      # If you prefer to disable the Oryx build process during deployment, follow these steps:
+      # 1. Remove the SCM_DO_BUILD_DURING_DEPLOYMENT app setting from your Azure App Service Environment variables.
+      # 2. Refer to sample workflows for alternative deployment strategies: https://github.com/Azure/actions-workflow-samples/tree/master/AppService
+      
 
   deploy:
     runs-on: ubuntu-latest
@@ -57,9 +63,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3B42BB58859D419B9980A0213B57C4FD }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B74D83324A444EABBC1980C28B67FC72 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5AD907163F7749BB90FB1CD38325416A }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_77C7AA14B76849E5841270E769D8D05D }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4E4E263A8B2F4C3991DD25920C802407 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_699C418F8C154BD5883EA910647BE2E6 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
@@ -67,4 +73,4 @@ jobs:
         with:
           app-name: 'SpeechtoSignServer'
           slot-name: 'Production'
-          package: .
+          

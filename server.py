@@ -4,10 +4,8 @@ import simplemma
 import re
 
 app = Flask(__name__)
-# Enable CORS for React Native mobile access
 CORS(app) 
 
-# REPLACE THESE with your exact 30 root words (currently 20 listed)
 AVAILABLE_SIGNS = {
     "boss", "call", "client", "come", "day", "female",
     "give", "i", "idea", "love", "meet", "plan",
@@ -24,7 +22,6 @@ def speech_to_sign():
 
     raw_text = data['text']
     
-    # Clean the text (remove punctuation) and split into individual words
     clean_text = re.sub(r'[^\w\s]', '', raw_text)
     tokens = clean_text.split()
     

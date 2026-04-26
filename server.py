@@ -30,10 +30,8 @@ def speech_to_sign():
     for word in tokens:
         raw_word = word.lower()
         
-        # Convert the word to its root using Simplemma
         lemma = simplemma.lemmatize(raw_word, lang='en')
         
-        # Only add the word to the sequence if we actually have a video for it
         if lemma in AVAILABLE_SIGNS:
             sequence.append(lemma)
         elif raw_word in AVAILABLE_SIGNS and lemma not in AVAILABLE_SIGNS:

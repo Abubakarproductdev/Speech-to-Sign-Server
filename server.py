@@ -1,12 +1,13 @@
-import spacy
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+import simplemma
+import re
 
 app = Flask(__name__)
+# Enable CORS for React Native mobile access
+CORS(app) 
 
-# Load the English NLP model
-nlp = spacy.load("en_core_web_sm")
-
-# REPLACE THESE with your exact 30 root words (video filenames minus the .mp4)
+# REPLACE THESE with your exact 30 root words (currently 20 listed)
 AVAILABLE_SIGNS = {
     "boss", "call", "client", "come", "day", "female",
     "give", "i", "idea", "love", "meet", "plan",
@@ -22,14 +23,18 @@ def speech_to_sign():
         return jsonify({"error": "Text payload missing"}), 400
 
     raw_text = data['text']
-    doc = nlp(raw_text)
+    
+    # Clean the text (remove punctuation) and split into individual words
+    clean_text = re.sub(r'[^\w\s]', '', raw_text)
+    tokens = clean_text.split()
     
     sequence = []
 
-    for token in doc:
-        # Convert the word to its root (e.g., "went" -> "go", "running" -> "run")
-        lemma = token.lemma_.lower()
-        raw_word = token.text.lower()
+    for word in tokens:
+        raw_word = word.lower()
+        
+        # Convert the word to its root using Simplemma
+        lemma = simplemma.lemmatize(raw_word, lang='en')
         
         # Only add the word to the sequence if we actually have a video for it
         if lemma in AVAILABLE_SIGNS:
@@ -43,5 +48,4 @@ def speech_to_sign():
     }), 200
 
 if __name__ == '__main__':
-    
     app.run(host='0.0.0.0', debug=True, port=5000)

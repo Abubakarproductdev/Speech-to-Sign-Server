@@ -10,7 +10,7 @@ AVAILABLE_SIGNS = {
     "boss", "call", "client", "come", "day", "female",
     "give", "i", "idea", "love", "meet", "plan",
     "project", "read", "report", "this", "time",
-    "today", "want", "you"
+    "today", "want", "you","help","job","make","male"
 }
 
 @app.route('/speech-to-sign', methods=['POST'])

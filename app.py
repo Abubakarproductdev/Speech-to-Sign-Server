@@ -7,12 +7,17 @@ app = Flask(__name__)
 CORS(app) 
 
 AVAILABLE_SIGNS = {
-    "boss", "call", "client", "come", "day", "female",
-    "give", "i", "idea", "love", "meet", "plan",
-    "project", "read", "report", "this", "time",
-    "today", "want", "you","help","job","make","male"
-}
+    # Added from the provided image
+    "father", "go", "help", "home", "job", "make", 
+    "male friend", "male", "message", "mine", "morning", 
+    "mother", "office", "see", "send", "talk", "team", 
+    "this", "we", "word", "work", "write",
 
+    # Added from your provided list
+    "boss", "call", "client", "come", "day", "female", 
+    "give", "i", "idea", "love", "meet", "plan", 
+    "project", "read", "report", "time", "today", "want", "you"
+}
 @app.route('/speech-to-sign', methods=['POST'])
 def speech_to_sign():
     data = request.get_json()

@@ -1,8 +1,8 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure
-# More GitHub Actions for Azure: https://github.com/Azure
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - speechtosign
+name: Build and deploy Python app to Azure Web App - speechtoSign
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       # 🛠️ Local Build Section (Optional)
       # The following section in your workflow is designed to catch build issues early on the client side, before deployment. This can be helpful for debugging and validation. However, if this step significantly increases deployment time and early detection is not critical for your workflow, you may remove this section to streamline the deployment process.
@@ -63,14 +63,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7586B568DCAD47F9B3D6D4A23847B92D }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E3C8339E928548C89B466688E9CF7BDF }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_92E6D223F1F54FBCB0816D6D04F87D10 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1E339BBDBB8D4CBAB706C98D3EDA7E74 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_63D2AAC8EB8E40FE8D956271F7B4CBE7 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3B9761D5ADED4987B01FCFAF013FA876 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'speechtosign'
+          app-name: 'speechtoSign'
           slot-name: 'Production'
           
